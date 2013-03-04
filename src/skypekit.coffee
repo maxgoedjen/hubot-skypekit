@@ -32,7 +32,8 @@ class SkypeAdapter extends Adapter
             user.name = decoded.user
         user.room = decoded.room
         return unless decoded.message
-        self.receive new TextMessage (user, decoded.message, decoded.room)
+        console.log 'hit #{user}'
+        self.receive new TextMessage (user, decoded.message)
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()
     @skype.on 'exit', (code) =>

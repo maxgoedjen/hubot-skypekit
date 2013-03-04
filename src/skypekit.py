@@ -37,8 +37,8 @@ loggedIn = False
 try:
     MySkype = Skype.GetSkype(config.keyFileName)
     MySkype.Start()
-except Exception:
-    raise SystemExit('Unable to create Skype instance')
+except Exception, e:
+    raise SystemExit('Unable to create Skype instance: %s' % e)
 
 Skype.Skype.OnMessage = on_message
 Skype.Account.OnPropertyChange = account_on_change

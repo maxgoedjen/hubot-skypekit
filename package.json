@@ -1,0 +1,20 @@
+{
+  "name": "hubot-skypekit",
+  "version": "0.0.1",
+  "author": "Max Goedjen",
+  "keywords": [
+    "github hubot skypekit adapter"
+  ],
+  "description": "A SkypeKit adapter for hubot",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxgoedjen/hubot-skypekit.git"
+  },
+  "devDependencies": {
+    "coffee-script": ">=1.1.3"
+  },
+  "main": "./src/skypekit",
+  "engines": {
+    "node": ">= 0.6"
+  }
+}

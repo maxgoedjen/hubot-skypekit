@@ -30,8 +30,8 @@ class SkypeAdapter extends Adapter
             user = self.userForId id
             user.name = decoded.user
         user.room = decoded.room
+        console.log decoded.message
         return unless decoded.message
-        @send new TextMessage user, decoded.message
         @receive new TextMessage user, decoded.message
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()

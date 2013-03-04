@@ -12,7 +12,6 @@ class SkypeAdapter extends Adapter
     @skype.stdin.write json + '\n'
 
   reply: (user, strings...) ->
-    console.log 'REPLY'
     @send user, strings...
 
   run: ->
@@ -32,8 +31,8 @@ class SkypeAdapter extends Adapter
             user.name = decoded.user
         user.room = decoded.room
         return unless decoded.message
-        console.log 'hit #{user}'
-        self.receive new TextMessage user, decoded.message
+        console.log "hit #{user}"
+        @receive new TextMessage user, decoded.message
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()
     @skype.on 'exit', (code) =>

@@ -1,5 +1,4 @@
-Robot   = require('hubot').robot()
-Adapter = require('hubot').adapter()
+{Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, CatchAllMessage} = require "hubot"
 
 class SkypeAdapter extends Adapter
   send: (user, strings...) ->
@@ -34,7 +33,7 @@ class SkypeAdapter extends Adapter
 
         return unless decoded.message
         
-        message = new Robot.TextMessage user, decoded.message
+        message = new TextMessage user, decoded.message
         console.log "#{JSON.stringify(message)}"
         @receive message
     @skype.stderr.on 'data', (data) =>

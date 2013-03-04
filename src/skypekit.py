@@ -3,6 +3,7 @@ import config
 import json
 from time import sleep
 
+sys.path.append("/lib")
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
 	if message.author != config.username:
@@ -27,7 +28,7 @@ def send_message(message):
     conversation.PostText(decoded['message'])
 
 try:
-    import lib.Skype as Skype
+    import Skype
 except ImportError:
     raise SystemExit('Program requires Skype and skypekit modules')
 

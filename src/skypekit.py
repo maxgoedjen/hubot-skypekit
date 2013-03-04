@@ -3,8 +3,6 @@ import config
 import json
 from time import sleep
 
-sys.path.append("/lib")
-
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
 	if message.author != config.username:
 		message_dict = {
@@ -28,17 +26,14 @@ def send_message(message):
     conversation.PostText(decoded['message'])
 
 try:
-    import Skype
+    import lib.Skype as Skype
 except ImportError:
     raise SystemExit('Program requires Skype and skypekit modules')
 
 loggedIn = False
 
-try:
-    MySkype = Skype.GetSkype(config.keyFileName)
-    MySkype.Start()
-except Exception, e:
-    raise SystemExit('Unable to create Skype instance: %s' % e)
+MySkype = Skype.GetSkype(config.keyFileName)
+MySkype.Start()
 
 Skype.Skype.OnMessage = on_message
 Skype.Account.OnPropertyChange = account_on_change

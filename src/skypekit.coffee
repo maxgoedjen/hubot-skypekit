@@ -33,7 +33,7 @@ class SkypeAdapter extends Adapter
 
         return unless decoded.message
         
-        message = new Robot.TextMessage user, decoded.message
+        message = new TextMessage user, decoded.message
         console.log "#{message} #{message.text}"
         @receive message
     @skype.stderr.on 'data', (data) =>

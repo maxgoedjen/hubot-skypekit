@@ -2,6 +2,7 @@
 
 class SkypeAdapter extends Adapter
   send: (user, strings...) ->
+    console.log 'SEND'
     out = ""
     out = ("#{str}\n" for str in strings)
     json = JSON.stringify
@@ -11,6 +12,7 @@ class SkypeAdapter extends Adapter
     @skype.stdin.write json + '\n'
 
   reply: (user, strings...) ->
+    console.log 'REPLY'
     @send user, strings...
 
   run: ->
@@ -30,8 +32,8 @@ class SkypeAdapter extends Adapter
             user.name = decoded.user
         user.room = decoded.room
         return unless decoded.message
-        console.log 'hit'
-        self.receive new TextMessage user, decoded.message
+        console.log 'hit #{user}'
+        self.receive new TextMessage (user, decoded.message, decoded.room)
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()
     @skype.on 'exit', (code) =>

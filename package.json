@@ -10,11 +10,9 @@
     "type": "git",
     "url": "git://github.com/maxgoedjen/hubot-skypekit.git"
   },
-  "dependencies": {
-    "hubot": ">=2.4.7"
-  },
   "devDependencies": {
-    "coffee-script": ">=1.1.3"
+    "coffee-script": ">=1.1.3",
+    "hubot": ">=2.4.1"
   },
   "main": "./src/skypekit",
   "engines": {

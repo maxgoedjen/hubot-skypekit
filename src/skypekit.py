@@ -18,7 +18,6 @@ def account_on_change(self, property_name):
     if property_name == 'status':
         if self.status == 'LOGGED_IN':
             loggedIn = True
-            print('Login complete.')
         
 def send_message(message):
     decoded = json.loads(line)
@@ -38,7 +37,6 @@ MySkype.Start()
 Skype.Skype.OnMessage = on_message
 Skype.Account.OnPropertyChange = account_on_change
 
-print('Logging in with ' + config.username)
 account = MySkype.GetAccount(config.username)
 account.LoginWithPassword(config.password, False, False)
 

@@ -34,7 +34,7 @@ class SkypeAdapter extends Adapter
         return unless decoded.message
         
         message = new TextMessage user, decoded.message
-        console.log "#{message} #{message.text}"
+        console.log "#{JSON.stringify(message)}"
         @receive message
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()

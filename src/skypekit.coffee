@@ -7,6 +7,7 @@ class SkypeAdapter extends Adapter
     json = JSON.stringify
       room: user.room
       message: out.join('')
+    console.log(json)
     @skype.stdin.write json + '\n'
 
   reply: (user, strings...) ->
@@ -19,6 +20,7 @@ class SkypeAdapter extends Adapter
     pyScriptPath = __dirname+'/skypekit.py'
     py = 'python'
     @skype = require('child_process').spawn(py, [pyScriptPath])
+    console.log(data)
     @skype.stdout.on 'data', (data) =>
         decoded = JSON.parse(data.toString())
         user = self.userForName decoded.user

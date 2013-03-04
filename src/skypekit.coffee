@@ -7,6 +7,7 @@ class SkypeAdapter extends Adapter
     json = JSON.stringify
       room: user.room
       message: out.join('')
+    console.log json
     @skype.stdin.write json + '\n'
 
   reply: (user, strings...) ->

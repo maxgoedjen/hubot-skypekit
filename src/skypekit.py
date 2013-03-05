@@ -1,5 +1,4 @@
 import sys
-import config
 import json
 import time
 import os

@@ -2,6 +2,7 @@ import sys
 import config
 import json
 import time
+import os
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
 	if message.author != username and message.timestamp > launch_time:

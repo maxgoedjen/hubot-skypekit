@@ -1,6 +1,8 @@
-{Robot, Adapter, TextMessage, EnterMessage, LeaveMessage, CatchAllMessage} = require "hubot"
+{Robot, Adapter, Response} = require 'hubot'
+{TextMessage, EnterMessage, LeaveMessage} = require '../../../src/message'
 
-class SkypeAdapter extends Adapter
+
+class SkypeKitAdapter extends Adapter
   send: (user, strings...) ->
     console.log 'SEND'
     out = ""
@@ -32,9 +34,8 @@ class SkypeAdapter extends Adapter
         user.room = decoded.room
 
         return unless decoded.message
-        
+
         message = new TextMessage user, decoded.message
-        console.log "#{JSON.stringify(message)}"
         @receive message
     @skype.stderr.on 'data', (data) =>
         @robot.logger.error data.toString()
@@ -50,4 +51,4 @@ class SkypeAdapter extends Adapter
     @emit "connected"
 
 exports.use = (robot) ->
-  new SkypeAdapter robot
+  new SkypeKitAdapter robot

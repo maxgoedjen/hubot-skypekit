@@ -1,10 +1,10 @@
 import sys
 import config
 import json
-from time import sleep
+import time
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
-	if message.author != config.username:
+	if message.author != username and message.timestamp > launch_time:
 		message_dict = {
             'user': message.author,
             'message': message.body_xml,
@@ -21,7 +21,7 @@ def account_on_change(self, property_name):
         
 def send_message(message):
     decoded = json.loads(line)
-    conversation = MySkype.GetConversationByIdentity(decoded['room'])
+    conversation = skype.GetConversationByIdentity(decoded['room'])
     conversation.PostText(decoded['message'])
 
 try:
@@ -29,19 +29,25 @@ try:
 except ImportError:
     raise SystemExit('Program requires Skype and skypekit modules')
 
-loggedIn = False
 
-MySkype = Skype.GetSkype(config.keyFileName)
-MySkype.Start()
+username = os.environ['HUBOT_SKYPEKIT_USERNAME']
+password = os.environ['HUBOT_SKYPEKIT_PASSWORD']
+key_path = os.environ['HUBOT_SKYPEKIT_KEY_PATH']
+
+loggedIn = False
+launch_time = time.time()
+
+skype = Skype.GetSkype(key_path)
+skype.Start()
 
 Skype.Skype.OnMessage = on_message
 Skype.Account.OnPropertyChange = account_on_change
 
-account = MySkype.GetAccount(config.username)
-account.LoginWithPassword(config.password, False, False)
+account = skype.GetAccount(username)
+account.LoginWithPassword(password, False, False)
 
 while loggedIn == False:
-    sleep(1)
+    time.sleep(1)
     
 while True:
     line = sys.stdin.readline()

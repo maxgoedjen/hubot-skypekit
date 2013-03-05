@@ -1,4 +1,5 @@
 {Robot, Adapter, Response} = require 'hubot'
+#Yup.
 {TextMessage, EnterMessage, LeaveMessage} = require '../../../src/message'
 
 

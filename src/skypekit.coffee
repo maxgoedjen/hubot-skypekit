@@ -5,6 +5,7 @@
 
 class SkypeKitAdapter extends Adapter
   send: (user, strings...) ->
+    console.log "Send"
     out = ""
     out = ("#{str}\n" for str in strings)
     json = JSON.stringify
@@ -32,7 +33,7 @@ class SkypeKitAdapter extends Adapter
         user.room = decoded.room
 
         return unless decoded.message
-
+        console.log "Receive"
         message = new TextMessage user, decoded.message
         @receive message
     @skype.stderr.on 'data', (data) =>

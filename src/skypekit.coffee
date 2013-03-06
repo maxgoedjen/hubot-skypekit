@@ -2,10 +2,10 @@
 #Yup.
 {TextMessage, EnterMessage, LeaveMessage} = require '../../../src/message'
 
+# {Robot, Adapter, Response, TextMessage, EnterMessage, LeaveMessage} = require 'hubot'
 
 class SkypeKitAdapter extends Adapter
   send: (user, strings...) ->
-    console.log "Send"
     out = ""
     out = ("#{str}\n" for str in strings)
     json = JSON.stringify
@@ -25,6 +25,11 @@ class SkypeKitAdapter extends Adapter
     @skype = require('child_process').spawn(py, [pyScriptPath])
     @skype.stdout.on 'data', (data) =>
         decoded = JSON.parse(data.toString())
+        
+        if '_debug_log_' of decoded
+            console.log "HUBOT_SKYPEKIT DEBUG: #{decoded._debug_log_}"
+            return
+        
         user = self.userForName decoded.user
         unless user?
             id = (new Date().getTime() / 1000).toString().replace('.','')

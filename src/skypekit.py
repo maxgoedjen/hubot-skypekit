@@ -10,8 +10,7 @@ def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, c
             'message': message.body_xml,
             'room': conversation.identity,
         }
-		sys.stdout.write(json.dumps(message_dict) + '\n')
-		sys.stdout.flush()
+		write(message_dict)
 
 def account_on_change(self, property_name):
     global loggedIn
@@ -23,16 +22,30 @@ def send_message(message):
     decoded = json.loads(line)
     conversation = skype.GetConversationByIdentity(decoded['room'])
     conversation.PostText(decoded['message'])
+    
+def write(jsonDict):
+    sys.stdout.write(json.dumps(jsonDict) + '\n')
+    sys.stdout.flush()
+    
+def debug_log(log_message):
+    log_dict = {
+        '_debug_log_': log_message
+    }
+    write(log_dict)
 
 try:
     import lib.Skype as Skype
 except ImportError:
     raise SystemExit('Program requires Skype and skypekit modules')
 
+debug_log("TEST")
 
 username = os.environ['HUBOT_SKYPEKIT_USERNAME']
 password = os.environ['HUBOT_SKYPEKIT_PASSWORD']
 key_path = os.environ['HUBOT_SKYPEKIT_KEY_PATH']
+
+# Optional log path
+key_path = os.environ['HUBOT_SKYPEKIT_LOG_PATH']
 
 loggedIn = False
 launch_time = time.time()

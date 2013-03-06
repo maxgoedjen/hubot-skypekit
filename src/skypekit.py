@@ -10,7 +10,7 @@ def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, c
             'message': message.body_xml,
             'room': conversation.identity,
         }
-        debug_log("Received %s", json.dumps(message_dict))
+        debug_log("Received %s" % json.dumps(message_dict))
         write(message_dict)
 
 def account_on_change(self, property_name):
@@ -21,7 +21,7 @@ def account_on_change(self, property_name):
             debug_log("Logged in")
         
 def send_message(message):
-    debug_log("Sending %s", message)
+    debug_log("Sending %s" % message)
     decoded = json.loads(line)
     conversation = skype.GetConversationByIdentity(decoded['room'])
     conversation.PostText(decoded['message'])

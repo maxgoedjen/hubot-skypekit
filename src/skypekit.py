@@ -46,15 +46,20 @@ username = os.environ['HUBOT_SKYPEKIT_USERNAME']
 password = os.environ['HUBOT_SKYPEKIT_PASSWORD']
 key_path = os.environ['HUBOT_SKYPEKIT_KEY_PATH']
 
-logging_enabled = bool(os.environ.get('HUBOT_SKYPEKIT_LOG_ENABLED', 'false'))
+logging_enabled = os.environ.get('HUBOT_SKYPEKIT_LOG_ENABLED', '0') != '0'
 
 loggedIn = False
 launch_time = time.time()
 
 debug_log("Starting up...")
 
-skype = Skype.GetSkype(key_path)
-skype.Start()
+try:
+    skype = Skype.GetSkype(key_path)
+    skype.Start()
+except Exception, e:
+    debug_log("Couldn't start Skype: %s" % e)
+    raise e
+
 
 Skype.Skype.OnMessage = on_message
 Skype.Account.OnPropertyChange = account_on_change

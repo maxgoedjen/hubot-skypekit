@@ -53,12 +53,8 @@ launch_time = time.time()
 
 debug_log("Starting up...")
 
-try:
-    skype = Skype.GetSkype(key_path)
-    skype.Start()
-except Exception, e:
-    debug_log("Couldn't start Skype: %s" % e)
-    raise e
+skype = Skype.GetSkype(key_path)
+skype.Start()
 
 
 Skype.Skype.OnMessage = on_message

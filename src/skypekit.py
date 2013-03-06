@@ -4,14 +4,14 @@ import time
 import os
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
-	if message.author != username and message.timestamp > launch_time:
-		message_dict = {
+    if message.author != username and message.timestamp > launch_time:
+        message_dict = {
             'user': message.author,
             'message': message.body_xml,
             'room': conversation.identity,
         }
         debug_log("Received %s", json.dumps(message_dict))
-		write(message_dict)
+        write(message_dict)
 
 def account_on_change(self, property_name):
     global loggedIn

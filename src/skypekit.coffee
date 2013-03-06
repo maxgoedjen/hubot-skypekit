@@ -27,7 +27,7 @@ class SkypeKitAdapter extends Adapter
         decoded = JSON.parse(data.toString())
         
         if '_debug_log_' of decoded
-            console.log "HUBOT_SKYPEKIT DEBUG: #{decoded._debug_log_}"
+            console.log "HUBOT-SKYPEKIT DEBUG: #{decoded._debug_log_}"
             return
         
         user = self.userForName decoded.user

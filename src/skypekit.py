@@ -10,7 +10,7 @@ def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, c
             'message': message.body_xml,
             'room': conversation.identity,
         }
-        debug_log("Received %s" % json.dumps(message_dict))
+        debug_log("Received message %s" % message_dict['message'])
         write(message_dict)
 
 def account_on_change(self, property_name):
@@ -19,17 +19,17 @@ def account_on_change(self, property_name):
         if self.status == 'LOGGED_IN':
             loggedIn = True
             debug_log("Logged in")
-        
+
 def send_message(message):
-    debug_log("Sending %s" % message)
     decoded = json.loads(line)
+    debug_log("Sending message %s" % decode['message'])
     conversation = skype.GetConversationByIdentity(decoded['room'])
     conversation.PostText(decoded['message'])
-    
+
 def write(jsonDict):
     sys.stdout.write(json.dumps(jsonDict) + '\n')
     sys.stdout.flush()
-    
+
 def debug_log(log_message):
     if logging_enabled:
         log_dict = {
@@ -69,7 +69,7 @@ account.LoginWithPassword(password, False, False)
 
 while loggedIn == False:
     time.sleep(1)
-    
+
 while True:
     line = sys.stdin.readline()
     try:

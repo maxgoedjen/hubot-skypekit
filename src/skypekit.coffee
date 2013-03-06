@@ -25,11 +25,15 @@ class SkypeKitAdapter extends Adapter
     @skype = require('child_process').spawn(py, [pyScriptPath])
     @skype.stdout.on 'data', (data) =>
         decoded = JSON.parse(data.toString())
-        
+
         if '_debug_log_' of decoded
-            console.log "HUBOT-SKYPEKIT DEBUG: #{decoded._debug_log_}"
+            log = decoded['_debug_log_']
+            data = ''
+            if '_debug_data_' of decoded
+                data = JSON.stringify(decoded['_debug_data_'])
+            console.log "HUBOT-SKYPEKIT DEBUG: #{log} #{data}"
             return
-        
+
         user = self.userForName decoded.user
         unless user?
             id = (new Date().getTime() / 1000).toString().replace('.','')
@@ -38,7 +42,6 @@ class SkypeKitAdapter extends Adapter
         user.room = decoded.room
 
         return unless decoded.message
-        console.log "Receive"
         message = new TextMessage user, decoded.message
         @receive message
     @skype.stderr.on 'data', (data) =>

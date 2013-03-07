@@ -24,7 +24,7 @@ def send_message(message):
     decoded = json.loads(line)
     debug_log("Sending message", decoded)
     conversation = skype.GetConversationByIdentity(decoded['room'])
-    conversation.PostText(decoded['message'])
+    conversation.PostText(decoded['message'], is_xml=True)
 
 def write(jsonDict):
     sys.stdout.write(json.dumps(jsonDict) + '\n')

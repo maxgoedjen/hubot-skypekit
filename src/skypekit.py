@@ -2,12 +2,13 @@ import sys
 import json
 import time
 import os
+import HTMLParser
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
     if message.author != username and message.timestamp > launch_time:
         message_dict = {
             'user': message.author,
-            'message': message.body_xml,
+            'message': html_parser.unescape(message.body_xml),
             'room': conversation.identity,
         }
         debug_log("Received message", message_dict)
@@ -64,6 +65,8 @@ Skype.Account.OnPropertyChange = account_on_change
 
 account = skype.GetAccount(username)
 account.LoginWithPassword(password, False, False)
+
+html_parser = HTMLParser.HTMLParser()
 
 while loggedIn == False:
     time.sleep(1)

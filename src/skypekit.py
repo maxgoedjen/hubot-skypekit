@@ -65,10 +65,8 @@ def is_snippet_xml(snippet):
     print counts
     for tag in counts:
         if counts[tag] != 0:
-            debug_log("Unclosed tags")
             return False
 
-    debug_log("Valid")
     return True
 
 try:

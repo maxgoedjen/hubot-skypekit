@@ -3,6 +3,7 @@ import json
 import time
 import os
 import HTMLParser
+import re
 
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
     if message.author != username and message.timestamp > launch_time:
@@ -27,7 +28,7 @@ def send_message(message):
     if decoded['message'].startswith('/'):
         decoded['message'] = ' ' + decoded['message']
     conversation = skype.GetConversationByIdentity(decoded['room'])
-    conversation.PostText(decoded['message'], is_xml=True)
+    conversation.PostText(decoded['message'], is_xml=is_snippet_xml(decoded['message']))
 
 def write(jsonDict):
     sys.stdout.write(json.dumps(jsonDict) + '\n')
@@ -41,6 +42,34 @@ def debug_log(log_message, log_data=None):
         if log_data:
             log_dict['_debug_data_'] = log_data
         write(log_dict)
+
+def is_snippet_xml(snippet):
+
+    if not '<' in snippet and not '>' in snippet:
+        return False
+
+    OPEN = re.compile('<([^/>]+)>')
+    CLOSE = re.compile('</([^>]+)>')
+
+    counts = {}
+
+    open_tags = OPEN.findall(snippet)
+    closed_tags = CLOSE.findall(snippet)
+
+    for tag in open_tags:
+        counts[tag] = counts.get(tag, 0) + 1
+
+    for tag in closed_tags:
+        counts[tag] = counts.get(tag, 0) - 1
+
+    print counts
+    for tag in counts:
+        if counts[tag] != 0:
+            debug_log("Unclosed tags")
+            return False
+
+    debug_log("Valid")
+    return True
 
 try:
     import lib.Skype as Skype

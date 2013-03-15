@@ -68,6 +68,7 @@ def is_snippet_xml(snippet):
             return False
 
     return True
+    
 
 try:
     import lib.Skype as Skype

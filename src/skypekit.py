@@ -48,8 +48,8 @@ def is_snippet_xml(snippet):
     if not '<' in snippet and not '>' in snippet:
         return False
 
-    OPEN = re.compile('<([^/>]+)>')
-    CLOSE = re.compile('</([^>]+)>')
+    OPEN = re.compile('<([A-Za-z0-9])+ ?.*>')
+    CLOSE = re.compile('</([A-Za-z0-9])+>')
 
     counts = {}
 

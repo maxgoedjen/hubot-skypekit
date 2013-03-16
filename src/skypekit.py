@@ -5,11 +5,15 @@ import os
 import HTMLParser
 import re
 
+OPEN = re.compile('<([A-Za-z0-9])+ ?.*>')
+CLOSE = re.compile('</([A-Za-z0-9])+>')
+LINK = re.compile('<(?:[aA]) href="([^"]*)"?.*>(?:[^<]*)</[aA]>')
+
 def on_message(self, message, changesInboxTimestamp, supersedesHistoryMessage, conversation):
     if message.author != username and message.timestamp > launch_time:
         message_dict = {
             'user': message.author,
-            'message': html_parser.unescape(message.body_xml),
+            'message': sanitize_input(message.body_xml),
             'room': conversation.identity,
         }
         debug_log("Received message", message_dict)
@@ -44,31 +48,26 @@ def debug_log(log_message, log_data=None):
         write(log_dict)
 
 def is_snippet_xml(snippet):
-
     if not '<' in snippet and not '>' in snippet:
         return False
-
-    OPEN = re.compile('<([A-Za-z0-9])+ ?.*>')
-    CLOSE = re.compile('</([A-Za-z0-9])+>')
-
     counts = {}
-
     open_tags = OPEN.findall(snippet)
     closed_tags = CLOSE.findall(snippet)
-
     for tag in open_tags:
         counts[tag] = counts.get(tag, 0) + 1
-
     for tag in closed_tags:
         counts[tag] = counts.get(tag, 0) - 1
-
     print counts
     for tag in counts:
         if counts[tag] != 0:
             return False
-
     return True
     
+def sanitize_input(text):
+    text = html_parser.unescape(text)
+    url = LINK.search(text).group(1)
+    return INK.sub(url, text)
+
 
 try:
     import lib.Skype as Skype

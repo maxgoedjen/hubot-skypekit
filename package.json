@@ -1,6 +1,6 @@
 {
   "name": "hubot-skypekit",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Max Goedjen",
   "keywords": [
     "github hubot skypekit adapter"

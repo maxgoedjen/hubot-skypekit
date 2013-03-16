@@ -65,8 +65,11 @@ def is_snippet_xml(snippet):
     
 def sanitize_input(text):
     text = html_parser.unescape(text)
-    url = LINK.search(text).group(1)
-    return INK.sub(url, text)
+    link_search = LINK.search(text)
+    if link_search:
+        url = link_search.group(1)
+        text = LINK.sub(url, text)
+    return text
 
 
 try:
